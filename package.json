@@ -1,6 +1,6 @@
 {
   "name": "@droppedcode/typedoc-plugin-relative-includes",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "droppedcode",
   "license": "MIT",
   "scripts": {
