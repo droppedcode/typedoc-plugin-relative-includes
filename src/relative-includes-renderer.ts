@@ -5,9 +5,11 @@ import {
   Application,
   Context,
   Converter,
+  DeclarationReflection,
   MarkdownEvent,
   PageEvent,
   Reflection,
+  SignatureReflection,
 } from 'typedoc';
 import { Node } from 'typescript';
 
@@ -48,8 +50,19 @@ export class RelativeIncludesRenderer {
         this._reflectionPaths.set(r, folderPaths);
 
         let filePath = this.getNodeFilePath(n);
-        if (!filePath && r.sources) {
-          filePath = r.sources[0].fileName;
+        if (!filePath) {
+          if (
+            r.variant === 'signature' ||
+            r.variant === 'declaration'
+          ) {
+            const sourceVariant = r as
+              | SignatureReflection
+              | DeclarationReflection;
+
+              if (sourceVariant.sources && sourceVariant.sources.length) {
+                filePath = sourceVariant.sources[0].fileName;
+              }
+          }
         }
 
         if (!filePath) return;
@@ -121,9 +134,18 @@ export class RelativeIncludesRenderer {
    * @returns The file path.
    */
   private getReflectionFilePath(reflection: Reflection): string | undefined {
-    if (!reflection.sources || reflection.sources.length === 0) return;
+    if (
+      reflection.variant !== 'signature' &&
+      reflection.variant !== 'declaration'
+    )
+      return;
+    const sourceVariant = reflection as
+      | SignatureReflection
+      | DeclarationReflection;
 
-    return reflection.sources[0].fileName;
+    if (!sourceVariant.sources || sourceVariant.sources.length === 0) return;
+
+    return sourceVariant.sources[0].fileName;
   }
 
   /**

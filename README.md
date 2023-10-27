@@ -29,7 +29,9 @@ class Test {}
 
 ## Typedoc
 
-Supports 0.23 (tested with 0.23.19)
+Supports 0.25 (tested with 0.25.2)
+
+For 0.23 see version 1.0.4
 
 For 0.22 see version 1.0.2
 
@@ -42,6 +44,7 @@ Possible reasons:
 - The file is not there where you think it is (use the `--logLevel Verbose` command line parameter to see the messages)
 - Wrong file included: because of how typedoc generation works sometimes a determining the path is not so easy, wrong file can be included if there is multiple same named files in the file tree. I have not seen this happen and should't happen, but theoretically it is possible.
 - The [[include: x]] is not included in an md file. Md file does not support include only the comments handled by typedoc (still the file path will be changed by the plugin to be relative to src folder).
+- The plugin option is not used with typedoc.
 
 ## How to build
 
@@ -51,5 +54,6 @@ Possible reasons:
 
 ## How to debug
 
-- copy the package.json to the `tests\typedoc-plugins-example\node_modules\@droppedcode\typedoc-plugin-relative-includes` folder
+- `npm run test:prep`
+- Update the `@droppedcode/typedoc-plugin-copy-assets` version in `tests\typedoc-plugins-example\package.json` if needed
 - vscode F5 or debug or run `npx typedoc` in the `tests\typedoc-plugins-example` folder
